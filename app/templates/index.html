@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Inspección al cortado</title>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                Modelo de inspección al cortado
+            </a>
+        </div>
+    </nav>
+
+    <!-- Acordeón -->
+    <div class="container mt-3">
+        <div class="accordion" id="accordionExample">
+            <!-- Información sobre el modelo de corte inteligente (oculta) -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                        Información sobre el modelo de corte inteligente
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                    data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <p>
+                            El modelo de corte inteligente permite clasificar a los clientes en dos categorías:
+                            aquellos que cometen fraude (o se autoreconectan) y aquellos que no lo hacen. Además, muestra
+                            la probabilidad de pertenecer a la clase a la que fue clasificado, que se puede encontrar en
+                            las columnas `prediction_label` y `prediction_score`. Para ejecutar este modelo, debes cargar
+                            un archivo de Excel con extensión `.xlsx` que contenga las siguientes columnas:
+                        </p>
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th>Variable</th>
+                              <th>Descripción</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>ZONA ROJA</td>
+                              <td>Representa el nivel de peligrosidad del barrio donde se encuentra ubicado el cliente. Se utiliza una escala del 0 al 3 para clasificar el nivel de peligrosidad, donde 0 indica una zona de menor peligrosidad y 3 indica una zona de alta peligrosidad.</td>
+                            </tr>
+                            <tr>
+                              <td>COORDENADA XD y YD</td>
+                              <td>Estas son las coordenadas x y y que permiten ubicar al cliente en un plano cartesiano. Estas coordenadas proporcionan información geográfica para identificar la ubicación precisa del cliente.</td>
+                            </tr>
+                            <tr>
+                              <td>DIAS SIN CONEXIÓN LEGAL</td>
+                              <td>Representa la cantidad de días que han transcurrido desde que se cortó el suministro eléctrico del cliente debido a problemas de morosidad. Este valor refleja la duración del período en el que el cliente ha estado sin conexión legal.</td>
+                            </tr>
+                            <tr>
+                              <td>CANTIDAD DE AVISOS DE CORTE POR DEUDA</td>
+                              <td>Indica la frecuencia con la que se ha generado un aviso para el corte del suministro eléctrico debido a la morosidad en el pago de la deuda. Cuanto mayor sea este valor, mayor será la cantidad de avisos de corte que se han emitido para el cliente.</td>
+                            </tr>
+                            <tr>
+                              <td>CONSUMO MENSUAL PROMEDIO</td>
+                              <td>Es el promedio del consumo mensual de energía eléctrica registrado antes de que se realizara el corte del suministro. Este valor proporciona información sobre el nivel de consumo del cliente antes de enfrentar problemas de morosidad.</td>
+                            </tr>
+                            <tr>
+                              <td>DÍAS TRANSCURRIDO DESDE EL ÚLTIMO PAGO</td>
+                              <td>Muestra la cantidad de días que han transcurrido desde el último pago registrado en el sistema. Este valor indica el tiempo transcurrido desde el último pago realizado por el cliente.</td>
+                            </tr>
+                            <tr>
+                              <td>DEUDA TOTAL</td>
+                              <td>Es la suma de todas las deudas pendientes en diferentes períodos de mora. Representa el monto acumulado que el cliente adeuda en concepto de pagos atrasados.</td>
+                            </tr>
+                            <tr>
+                              <td>PERDIDA TOTAL POR</td>
+                              <td>Indica el porcentaje de pérdida de energía eléctrica en un totalizador (transformador) al cual estuvieron o están conectados los clientes sujetos al análisis. Esta característica proporciona información sobre las pérdidas de energía asociadas al cliente y su conexión eléctrica.</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <p>
+                            El orden no es relevante, pero es importante que estén escritas en mayúscula cerrada, ya que
+                            así se ajustaron los parámetros del modelo y, por ende, buscará estas variables en la
+                            plantilla que se cargue. No importa si el conjunto de datos tiene otras columnas, como por
+                            ejemplo el NAC, ya que el modelo solo considerará las variables mencionadas anteriormente
+                            para hacer la clasificación de los clientes cortados.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulario (visible por defecto) -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                        Cargar datos
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingTwo"
+                    data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div class="card mt-3" style="max-width: 50%; margin: auto;">
+                            <div class="card-header">
+                                <h1>Cargar datos</h1>
+                            </div>
+                            <div class="card-body">
+                                <form action="/upload" method="post" enctype="multipart/form-data">
+                                    <div class="mb-3">
+                                        <label for="archivo" class="form-label">Seleccionar archivo</label>
+                                        <input type="file" class="form-control" id="archivo" name="archivo">
+                                    </div>
+                                    <button type="submit" class="btn btn-success">Ejecutar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
+
+
+
+
